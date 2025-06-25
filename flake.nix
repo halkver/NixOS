@@ -26,11 +26,21 @@
           ];
         };
 
+        work-wsl = nixpkgs.lib.nixosSystem {
+          inherit system;
+          specialArgs = { inherit inputs; };
+          modules = [
+	    ./work/wsl-configuration.nix
+	    ./common.nix
+	    nixos-wsl.nixosModules.default
+          ];
+        };
+
         work = nixpkgs.lib.nixosSystem {
           inherit system;
           specialArgs = { inherit inputs; };
           modules = [
-	    ./work/configuration.nix
+	    ./work/desktop-configuration.nix
 	    ./common.nix
 	  ];
         };
