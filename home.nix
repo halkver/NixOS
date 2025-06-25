@@ -6,6 +6,9 @@
   };
 
   programs = {
+    ripgrep.enable = true;
+    bat.enable = true;
+
     ssh = {
       enable = true;
       addKeysToAgent = "yes";
@@ -17,6 +20,25 @@
 	  hostname = "ssh.github.com";
 	};
       };
+    };
+
+    fish = {
+      enable = true;
+      shellAliases = {
+        rb = "sudo nixos-rebuild switch --flake ~/NixOS/.";
+      };
+    };
+
+    starship = {
+      enable = true;
+      enableFishIntegration = true;
+    };
+
+    fzf = {
+      enable = true;
+      enableFishIntegration = true;
+      defaultOptions = [ "--layout=reverse" "--height=40%" ];
+      fileWidgetOptions = [ "--preview 'bat --color=always --style=numbers {}'" ];
     };
   };
 }

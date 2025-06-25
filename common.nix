@@ -1,5 +1,8 @@
 { config, pkgs, inputs, ... }:
 {
+  imports = [
+    inputs.home-manager.nixosModules.default
+  ];
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
   nixpkgs.config.allowUnfree = true;
@@ -25,8 +28,8 @@
   networking.networkmanager.enable = true;
 
   programs = {
-    fish.enable = true;
     ssh.startAgent = true;
+    fish.enable = true;
 
     neovim = {
       enable = true;
