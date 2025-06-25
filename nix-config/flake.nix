@@ -15,18 +15,30 @@
     let
       system = "x86_64-linux";
     in {
-      nixosConfigurations.wsl = nixpkgs.lib.nixosSystem {
-        inherit system;
-	specialArgs = { inherit inputs; };
-        modules = [
-	  ./wsl/configuration.nix 
-	  ./common.nix
-	  nixos-wsl.nixosModules.default
-	  home-manager.nixosModules.default
-	];
+      nixosConfigurations = {
+        wsl = nixpkgs.lib.nixosSystem {
+          inherit system;
+          specialArgs = { inherit inputs; };
+          modules = [
+	    ./wsl/configuration.nix 
+	    ./common.nix
+	    nixos-wsl.nixosModules.default
+	    home-manager.nixosModules.default
+          ];
+        };
+
+        work = nixpkgs.lib.nixosSystem {
+          inherit system;
+          specialArgs = { inherit inputs; };
+          modules = [
+	    ./work/configuration.nix 
+	    ./common.nix
+	    home-manager.nixosModules.default
+	  ];
+        };
       };
-      
-      homeConfigurations.hmeen = home-manager.lib.homeManagerConfiguration {
+
+      homeConfigurations.halkver = home-manager.lib.homeManagerConfiguration {
         pkgs = nixpkgs.legacyPackages.${system};
 	extraSpecialArgs = { inherit inputs; };
 	modules = [ ./home.nix ];

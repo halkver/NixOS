@@ -3,7 +3,7 @@
   networking.hostName = "wsl";
 
   wsl.enable = true;
-  wsl.defaultUser = "hmeen";
+  wsl.defaultUser = "halkver";
 
   boot.loader.systemd-boot.enable = false;
 
