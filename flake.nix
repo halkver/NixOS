@@ -20,7 +20,7 @@
           inherit system;
           specialArgs = { inherit inputs; };
           modules = [
-	    ./wsl/configuration.nix
+	    ./hosts/wsl/configuration.nix
 	    ./common.nix
 	    nixos-wsl.nixosModules.default
           ];
@@ -30,7 +30,7 @@
           inherit system;
           specialArgs = { inherit inputs; };
           modules = [
-	    ./work/wsl-configuration.nix
+	    ./hosts/work/wsl-configuration.nix
 	    ./common.nix
 	    nixos-wsl.nixosModules.default
           ];
@@ -40,7 +40,7 @@
           inherit system;
           specialArgs = { inherit inputs; };
           modules = [
-	    ./work/desktop-configuration.nix
+	    ./hosts/work/desktop-configuration.nix
 	    ./common.nix
 	  ];
         };
