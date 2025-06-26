@@ -28,6 +28,7 @@ in
   networking.nameservers = netconf.nameservers;
 
   security.pki.certificateFiles = [ ../../zscaler.crt ];
+  nix.settings.ssl-cert-file = "/etc/ssl/certs/ca-bundle.crt";
 
 
   # Configure keymap in X11

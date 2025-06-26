@@ -3,6 +3,7 @@
   imports = [ inputs.nixos-wsl.nixosModules.default ];
 
   security.pki.certificateFiles = [ ../../zscaler.crt ];
+  nix.settings.ssl-cert-file = "/etc/ssl/certs/ca-bundle.crt";
 
   networking.hostName = "work-wsl";
 
