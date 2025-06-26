@@ -13,43 +13,26 @@
 
   outputs = { nixpkgs, nixos-wsl, home-manager, ... }@inputs:
     let
-      system = "x86_64-linux";
+      mkSystem = { hostname }:
+        nixpkgs.lib.nixosSystem {
+          system = "x86_64-linux";
+          specialArgs = { inherit inputs; };
+          modules = [
+	    ./hosts/${hostname}/configuration.nix
+	    ./common.nix
+
+	    home-manager.nixosModules.home-manager {
+	      home-manager.useGlobalPkgs = true;
+	      home-manager.useUserPackages = true;
+	      home-manager.users.halkver = { imports = [ ./home.nix ./hosts/${hostname}/home.nix  ]; };
+	    }
+          ];
+        };
     in {
       nixosConfigurations = {
-        wsl = nixpkgs.lib.nixosSystem {
-          inherit system;
-          specialArgs = { inherit inputs; };
-          modules = [
-	    ./hosts/wsl/configuration.nix
-	    ./common.nix
-	    nixos-wsl.nixosModules.default
-          ];
-        };
-
-        work-wsl = nixpkgs.lib.nixosSystem {
-          inherit system;
-          specialArgs = { inherit inputs; };
-          modules = [
-	    ./hosts/work/wsl-configuration.nix
-	    ./common.nix
-	    nixos-wsl.nixosModules.default
-          ];
-        };
-
-        work = nixpkgs.lib.nixosSystem {
-          inherit system;
-          specialArgs = { inherit inputs; };
-          modules = [
-	    ./hosts/work/desktop-configuration.nix
-	    ./common.nix
-	  ];
-        };
-      };
-
-      homeConfigurations.halkver = home-manager.lib.homeManagerConfiguration {
-        pkgs = nixpkgs.legacyPackages.${system};
-	extraSpecialArgs = { inherit inputs; };
-	modules = [ ./home.nix ];
+        wsl = mkSystem { hostname = "wsl"; }; 
+        work-wsl = mkSystem { hostname = "work-wsl"; }; 
+        work = mkSystem { hostname = "work"; }; 
       };
     };
 }

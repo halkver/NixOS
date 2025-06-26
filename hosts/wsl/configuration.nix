@@ -1,5 +1,7 @@
-{ config, pkgs, ... }:
+{ config, pkgs, inputs, ... }:
 {
+  imports = [ inputs.nixos-wsl.nixosModules.default ];
+
   networking.hostName = "wsl";
 
   wsl.enable = true;

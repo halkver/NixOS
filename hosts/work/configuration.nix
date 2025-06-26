@@ -1,4 +1,7 @@
 { config, pkgs, ... }:
+let
+  netConfig = builtins.fromJSON (builtins.readFile ./netconf.json);
+in
 {
   imports = [ ./hardware-configuration.nix ];
 
@@ -16,15 +19,15 @@
     useDHCP = false;
     ipv4.addresses = [
       {
-        address = "<ip>";
-        prefixLength = 0;
+        address = netconf.ip;
+        prefixLength = netconf.prefixLength;
       }
     ];
   };
-  networking.defaultGateway = "gw";
-  networking.nameservers = ["ns" "ns"];
+  networking.defaultGateway = netconf.defaultGateway;
+  networking.nameservers = netconf.nameservers;
 
-  security.pki.certificateFiles = [ ./zscaler.crt ];
+  security.pki.certificateFiles = [ ../../zscaler.crt ];
 
 
   # Configure keymap in X11

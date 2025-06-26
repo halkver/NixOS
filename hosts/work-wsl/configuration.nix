@@ -1,6 +1,8 @@
-{ config, pkgs, ... }:
+{ config, pkgs, inputs, ... }:
 {
-  security.pki.certificateFiles = [ ./zscaler.crt ];
+  imports = [ inputs.nixos-wsl.nixosModules.default ];
+
+  security.pki.certificateFiles = [ ../../zscaler.crt ];
 
   networking.hostName = "work-wsl";
 

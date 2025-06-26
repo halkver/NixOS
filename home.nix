@@ -3,6 +3,10 @@
     username = "halkver";
     homeDirectory = "/home/halkver";
     stateVersion = "24.11";
+
+    packages = [
+      pkgs.nerd-fonts.fira-code
+    ];
   };
 
   programs = {
@@ -27,18 +31,17 @@
       shellAliases = {
         rb = "sudo nixos-rebuild switch --flake ~/NixOS/.";
       };
-    };
-
-    starship = {
-      enable = true;
-      enableFishIntegration = true;
+      plugins = [
+        { name = "tide"; src = pkgs.fishPlugins.tide.src; }
+        { name = "fzf-fish"; src = pkgs.fishPlugins.fzf-fish.src; }
+      ];
     };
 
     fzf = {
       enable = true;
-      enableFishIntegration = true;
-      defaultOptions = [ "--layout=reverse" "--height=40%" ];
-      fileWidgetOptions = [ "--preview 'bat --color=always --style=numbers {}'" ];
+      enableFishIntegration = false;
+      # defaultOptions = [ "--layout=reverse" "--height=40%" ];
+      # fileWidgetOptions = [ "--preview 'bat --color=always --style=numbers {}'" ];
     };
   };
 }

@@ -1,0 +1,9 @@
+{
+  "ip": "<ip>",
+  "prefixLength": <length>,
+  "defaultGateway": "<gw>",
+  "nameservers": [
+    "<ns>",
+    "<ns>"
+  ]
+}

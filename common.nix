@@ -1,8 +1,5 @@
 { config, pkgs, inputs, ... }:
 {
-  imports = [
-    inputs.home-manager.nixosModules.default
-  ];
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
   nixpkgs.config.allowUnfree = true;
@@ -27,6 +24,8 @@
 
   networking.networkmanager.enable = true;
 
+  fonts.fontconfig.enable = true;
+
   programs = {
     ssh.startAgent = true;
     fish.enable = true;
@@ -35,6 +34,29 @@
       enable = true;
       vimAlias = true;
       defaultEditor = true;
+
+      configure = {
+        options = {
+          number = true;
+          relativenumber = true;
+	  expandtab = true;
+	  shiftwidth = 2;
+        };
+
+        globals = {
+          autoformat = false;
+          disable_autoformat = true;
+        };
+        keymaps = [
+          { key = "p"; action = "P"; mode = "v"; options.silent = true; }
+          { key = "P"; action = "p"; mode = "v"; options.silent = true; }
+        ];
+        autoCmds = [{
+          event = "CursorHold";
+          pattern = "*";
+          command = "lua vim.diagnostic.open_float(nil, {focus=false})";
+        }];
+      };
     };
 
     git = {
@@ -54,13 +76,6 @@
     isNormalUser = true;
     extraGroups = [ "wheel" "networkmanager" ];
     shell = pkgs.fish;
-  };
-
-  home-manager = {
-    extraSpecialArgs = { inherit inputs; };
-    users = {
-      halkver = import ./home.nix;
-    };
   };
 
   security.sudo.extraRules = [{
