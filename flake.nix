@@ -4,10 +4,7 @@
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     nixos-wsl.url = "github:nix-community/NixOS-WSL";
-    nvf = {
-      url = "github:notashelf/nvf";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    nixCats.url = "github:BirdeeHub/nixCats-nvim"; 
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -33,16 +30,17 @@
 
             home-manager.nixosModules.default
             {
-              home-manager.useGlobalPkgs = true;
-              home-manager.useUserPackages = true;
-              home-manager.users.halkver = {
-                imports = [
-                  ./home.nix
-                  ./hosts/${hostname}/home.nix
-                  inputs.nvf.homeManagerModules.default
-                ];
+              home-manager = {
+                extraSpecialArgs = { inherit inputs; };
+                useGlobalPkgs = true;
+                useUserPackages = true;
+                users.halkver = {
+                  imports = [
+                    ./home.nix
+                    ./hosts/${hostname}/home.nix
+                  ];
+                };
               };
-              home-manager.extraSpecialArgs = { inherit inputs; };
             }
           ];
         };

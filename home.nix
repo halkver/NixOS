@@ -5,6 +5,8 @@
   ...
 }:
 {
+  imports = [ inputs.nixCats.homeModule ];
+
   home = {
     username = "halkver";
     homeDirectory = "/home/halkver";
@@ -35,66 +37,9 @@
 
     ruff = {
       enable = true;
-      settings = { line-length = 120; };
-    };
-
-    nvf = {
-      enable = true;
-      settings.vim = {
-        vimAlias = true;
-        options = {
-          shiftwidth = 2;
-          tabstop = 2;
-          expandtab = true;
-        };
-        keymaps = [
-          {
-            key = "p";
-            mode = "v";
-            silent = true;
-            action = "P";
-          }
-          {
-            key = "P";
-            mode = "v";
-            silent = true;
-            action = "p";
-          }
-        ];
-        clipboard = {
-          enable = true;
-          providers.xclip.enable = true;
-          registers = "unnamedplus";
-        };
-        autocmds = [
-          {
-            enable = true;
-            event = [ "CursorHold" ];
-            command = "lua vim.diagnostic.open_float(nil, {focus=false})";
-            pattern = [ "*" ];
-          }
-        ];
-        formatter.conform-nvim.enable = true;
-        lsp.enable = true;
-        languages = {
-          enableTreesitter = true;
-
-          nix.enable = true;
-          ts.enable = true;
-          python = {
-            enable = true;
-            format = {
-              enable = true;
-              type = "ruff";
-            };
-            lsp = {
-              enable = true;
-            };
-            treesitter.enable = true;
-          };
-        };
+      settings = {
+        line-length = 120;
       };
-
     };
 
     fish = {
@@ -134,5 +79,47 @@
           "--show-time"
         ];
       };
+  };
+
+  nixCats = {
+    enable = true;
+    packageNames = [ "neovim" ];
+    luaPath = ./.;
+    categoryDefinitions.replace =
+      { pkgs, ... }: 
+      {
+        lspsAndRuntimeDeps = {
+          general = with pkgs; [
+            fd
+            tree-sitter
+          ];
+        };
+        startupPlugins = {
+          general = with pkgs.vimPlugins; [
+            lze
+          ];
+        };
+        optionalPlugins = {
+          general = with pkgs.vimPlugins; [
+            mini-nvim
+            nvim-treesitter.withAllGrammars
+          ];
+        };
+        sharedLibraries = {
+          general = with pkgs; [ ];
+        };
+        environmentVariables = {};
+      };
+    packageDefinitions.replace = {
+      neovim = {pkgs, name, ...}: {
+        settings = {
+          wrapRc = true;
+          aliases = [ "haruvim" ];
+        };
+        categories = {
+          general = true;
+        };
+      };
+    };
   };
 }
