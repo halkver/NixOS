@@ -30,35 +30,6 @@
     ssh.startAgent = true;
     fish.enable = true;
 
-	  #  neovim = {
-	  #    enable = true;
-	  #    vimAlias = true;
-	  #    defaultEditor = true;
-	  #
-	  #    configure = {
-	  #      options = {
-	  #        number = true;
-	  #        relativenumber = true;
-	  # expandtab = true;
-	  # shiftwidth = 2;
-	  #      };
-	  #
-	  #      globals = {
-	  #        autoformat = false;
-	  #        disable_autoformat = true;
-	  #      };
-	  #      keymaps = [
-	  #        { key = "p"; action = "P"; mode = "v"; options.silent = true; }
-	  #        { key = "P"; action = "p"; mode = "v"; options.silent = true; }
-	  #      ];
-	  #      autoCmds = [{
-	  #        event = "CursorHold";
-	  #        pattern = "*";
-	  #        command = "lua vim.diagnostic.open_float(nil, {focus=false})";
-	  #      }];
-	  #    };
-	  #  };
-
     git = {
       enable = true;
       config = {

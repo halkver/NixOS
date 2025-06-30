@@ -1,8 +1,6 @@
-{ config, pkgs, ... }:
-let
-  netConfig = builtins.fromJSON (builtins.readFile ./netconf.json);
-in
-{
+{ config, pkgs, ... }: let
+  netconf = builtins.fromJSON (builtins.readFile ./netconf.json);
+in {
   imports = [ ./hardware-configuration.nix ];
 
   # Bootloader.
@@ -39,10 +37,18 @@ in
 
   services.openssh.enable = true;
 
+  fonts.fontDir.enable = true;
 
-  programs.hyprland.enable = true;
+  programs.hyprland = {
+    enable = true;
+  };
 
   programs.firefox.enable = true;
+
+  programs.foot = {
+    enable = true;
+    enableFishIntegration = true;
+  };
 
   system.stateVersion = "25.05";
 }

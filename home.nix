@@ -1,5 +1,10 @@
-{ pkgs, ... }:
-l{
+{
+  inputs,
+  lib,
+  pkgs,
+  ...
+}:
+{
   home = {
     username = "halkver";
     homeDirectory = "/home/halkver";
@@ -26,6 +31,11 @@ l{
           hostname = "ssh.github.com";
         };
       };
+    };
+
+    ruff = {
+      enable = true;
+      settings = { line-length = 120; };
     };
 
     nvf = {
@@ -58,19 +68,30 @@ l{
         };
         autocmds = [
           {
-            enable = false;
+            enable = true;
             event = [ "CursorHold" ];
             command = "lua vim.diagnostic.open_float(nil, {focus=false})";
             pattern = [ "*" ];
           }
         ];
+        formatter.conform-nvim.enable = true;
+        lsp.enable = true;
         languages = {
-          enableLSP = true;
           enableTreesitter = true;
 
           nix.enable = true;
           ts.enable = true;
-          python.enable = true;
+          python = {
+            enable = true;
+            format = {
+              enable = true;
+              type = "ruff";
+            };
+            lsp = {
+              enable = true;
+            };
+            treesitter.enable = true;
+          };
         };
       };
 
@@ -89,16 +110,29 @@ l{
       ];
     };
 
-    fzf = {
-      enable = true;
-      enableFishIntegration = false;
-      defaultOptions = [
-        "--layout=reverse"
-        "--height=40%"
-      ];
-      fileWidgetOptions = [
-        "--preview 'if test -d {}; eza --tree --color=always --icons --git --level=2 {} | head -n 50; else; bat --color=always --style=numbers {}; end'"
-      ];
-    };
+    fzf =
+      let
+        fzf-preview = inputs.fzf-preview.packages.${pkgs.system}.default;
+      in
+      {
+        enable = true;
+        enableFishIntegration = true;
+        defaultOptions = [
+          "--layout=reverse"
+          "--height=40%"
+        ];
+        fileWidgetOptions = [
+          "--preview '${lib.getExe fzf-preview}' {}"
+        ];
+        changeDirWidgetCommand = "echo Hello";
+        changeDirWidgetOptions = [
+          "--preview 'eza --tree --color=always {} | head -200'"
+        ];
+        historyWidgetOptions = [
+          "--sort"
+          "--exact"
+          "--show-time"
+        ];
+      };
   };
 }
