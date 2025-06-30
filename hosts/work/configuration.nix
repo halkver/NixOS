@@ -1,7 +1,7 @@
 { config, pkgs, ... }: let
   netconf = builtins.fromJSON (builtins.readFile ./netconf.json);
 in {
-  imports = [ ./hardware-configuration.nix ];
+  imports = [ ./hardware-configuration.nix ./falcon.nix ];
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
@@ -24,6 +24,9 @@ in {
   };
   networking.defaultGateway = netconf.defaultGateway;
   networking.nameservers = netconf.nameservers;
+
+  services.gvfs.enable = true;
+  services.udisks2.enable = true;
 
   security.pki.certificateFiles = [ ../../zscaler.crt ];
   nix.settings.ssl-cert-file = "/etc/ssl/certs/ca-bundle.crt";

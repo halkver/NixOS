@@ -5,7 +5,7 @@ let
     #! ${pkgs.bash}/bin/sh
     /run/current-system/sw/bin/mkdir -p /opt/CrowdStrike
     ln -sf ${falcon}/opt/CrowdStrike/* /opt/CrowdStrike
-    ${falcon}/bin/fs-bash -c "${falcon}/opt/CrowdStrike/falconctl -g --cid"
+    ${falcon}/bin/fs-bash -c "${falcon}/opt/CrowdStrike/falconctl -s --cid=<cid>"
   '';
 in
 {
