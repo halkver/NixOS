@@ -16,12 +16,13 @@
   };
 
   outputs =
-    { home-manager, ... }@inputs:
+    { nixpkgs, home-manager, ... }@inputs:
     let
       system = "x86_64-linux";
+      pkgs = import nixpkgs { inherit system; };
       mkSystem =
         { hostname }:
-        inputs.nixpkgs.lib.nixosSystem {
+        nixpkgs.lib.nixosSystem {
           inherit system;
           specialArgs = { inherit inputs; };
           modules = [
@@ -44,8 +45,20 @@
             }
           ];
         };
+      python = pkgs.python313;
     in
     {
+      devShells.${system}.default = pkgs.mkShell {
+        packages = [ python pkgs.uv ];
+        env = { UV_PYTHON_DOWNLOADS = "never"; UV_PYTHON = python.interpreter; }
+        // nixpkgs.lib.optionalAttrs pkgs.stdenv.isLinux {
+          LD_LIBRARY_PATH = nixpkgs.lib.makeLibraryPath pkgs.pythonManylinuxPackages.manylinux1;
+        };
+        shellHook = ''
+          unset PYTHONPATH
+        '';
+      };
+
       nixosConfigurations = {
         wsl = mkSystem { hostname = "wsl"; };
         work-wsl = mkSystem { hostname = "work-wsl"; };

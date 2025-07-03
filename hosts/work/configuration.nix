@@ -25,20 +25,25 @@ in {
   networking.defaultGateway = netconf.defaultGateway;
   networking.nameservers = netconf.nameservers;
 
-  services.gvfs.enable = true;
-  services.udisks2.enable = true;
-
   security.pki.certificateFiles = [ ../../zscaler.crt ];
   nix.settings.ssl-cert-file = "/etc/ssl/certs/ca-bundle.crt";
 
 
   # Configure keymap in X11
-  services.xserver.xkb = {
-    layout = "us";
-    variant = "";
+  services = {
+    udisks2.enable = true;
+    gvfs.enable = true;
+    openssh.enable = true;
+    xserver.xkb = {
+      layout = "us";
+      variant = "";
+    };
+    pipewire = {
+      enable = true;
+      alsa.enable = true;
+      pulse.enable = true;
+    };
   };
-
-  services.openssh.enable = true;
 
   fonts.fontDir.enable = true;
 

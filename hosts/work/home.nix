@@ -3,6 +3,21 @@
 
   programs = {
     hyprlock.enable = true;
+    wofi.enable = true;
+    waybar = {
+      enable = true;
+      settings = [{
+        layer = "top";
+	position = "top";
+	mod = "dock";
+        modules-left = [
+          "hyprland/workspaces"
+        ];
+	modules-right = [
+	  "clock"
+	];
+      }];
+    };
   };
 
   wayland.windowManager.hyprland = {
@@ -10,6 +25,10 @@
     xwayland.enable = true; 
 
     settings = {
+      exec-once = [
+        "killall -q waybar;sleep .5 && waybar"
+      ];
+
       "$terminal" = "foot";
       "$mod" = "SUPER";
       "$fileManager" = "dolphin";
@@ -170,7 +189,7 @@
         "$mod, M, exit,"
         "$mod, E, exec, $fileManager"
         "$mod, V, togglefloating,"
-        "$mod, R, exec, $menu"
+        "$mod, D, exec, $menu"
         "$mod, P, pseudo," # dwindle
         "$mod, J, togglesplit," # dwindle
 
