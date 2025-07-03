@@ -53,4 +53,6 @@
     users = [ "halkver" ];
     commands = [{ command = "ALL"; options = [ "NOPASSWD" ]; }];
   }];
+
+  environment.localBinInPath = true;
 }
