@@ -5,16 +5,20 @@
   ...
 }:
 {
-  imports = [ inputs.nixCats.homeModule ];
-
+  imports = [
+    inputs.nixCats.homeModule
+    ./modules/nvim
+  ];
   home = {
     username = "halkver";
     homeDirectory = "/home/halkver";
     stateVersion = "24.11";
+    sessionVariables.EDITOR = "vim";
 
     packages = with pkgs; [
       nerd-fonts.fira-code
     ];
+
   };
 
   programs = {
@@ -32,13 +36,6 @@
           port = 443;
           hostname = "ssh.github.com";
         };
-      };
-    };
-
-    ruff = {
-      enable = true;
-      settings = {
-        line-length = 120;
       };
     };
 
@@ -67,59 +64,15 @@
           "--height=40%"
         ];
         fileWidgetOptions = [
-          "--preview '${lib.getExe fzf-preview}' {}"
+          "--preview '${lib.getExe fzf-preview} {}'"
         ];
-        changeDirWidgetCommand = "echo Hello";
         changeDirWidgetOptions = [
           "--preview 'eza --tree --color=always {} | head -200'"
         ];
         historyWidgetOptions = [
           "--sort"
           "--exact"
-          "--show-time"
         ];
       };
-  };
-
-  nixCats = {
-    enable = true;
-    packageNames = [ "neovim" ];
-    luaPath = ./.;
-    categoryDefinitions.replace =
-      { pkgs, ... }: 
-      {
-        lspsAndRuntimeDeps = {
-          general = with pkgs; [
-            fd
-            tree-sitter
-          ];
-        };
-        startupPlugins = {
-          general = with pkgs.vimPlugins; [
-            lze
-          ];
-        };
-        optionalPlugins = {
-          general = with pkgs.vimPlugins; [
-            mini-nvim
-            nvim-treesitter.withAllGrammars
-          ];
-        };
-        sharedLibraries = {
-          general = with pkgs; [ ];
-        };
-        environmentVariables = {};
-      };
-    packageDefinitions.replace = {
-      neovim = {pkgs, name, ...}: {
-        settings = {
-          wrapRc = true;
-          aliases = [ "haruvim" ];
-        };
-        categories = {
-          general = true;
-        };
-      };
-    };
   };
 }
