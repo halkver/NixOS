@@ -48,7 +48,7 @@
       python = pkgs.python313;
     in
     {
-      devShells.${system}.default = pkgs.mkShell {
+      devShells.${system}.pyshell = pkgs.mkShell {
         packages = [ python pkgs.uv ];
         env = { UV_PYTHON_DOWNLOADS = "never"; UV_PYTHON = python.interpreter; }
         // nixpkgs.lib.optionalAttrs pkgs.stdenv.isLinux {

@@ -1,6 +1,6 @@
 {
   "ip": "<ip>",
-  "prefixLength": <length>,
+  "prefixLength": 24,
   "defaultGateway": "<gw>",
   "nameservers": [
     "<ns>",

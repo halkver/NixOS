@@ -17,6 +17,7 @@
 
     packages = with pkgs; [
       nerd-fonts.fira-code
+      python3
     ];
 
   };
@@ -43,6 +44,8 @@
       enable = true;
       shellAliases = {
         rb = "sudo nixos-rebuild switch --flake ~/NixOS/.";
+        nixc = "cd ~/NixOS";
+        dev = "nix develop ~/NixOS/.#pyshell -c $SHELL";
       };
       plugins = with pkgs.fishPlugins; [
         {
