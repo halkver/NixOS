@@ -1,6 +1,11 @@
 { config, pkgs, ... }: {
   programs.foot.settings.main.font = "Fira Code:size=11";
 
+  home.packages = with pkgs; [
+    wl-clipboard
+  ];
+
+
   programs = {
     hyprlock.enable = true;
     wofi.enable = true;
