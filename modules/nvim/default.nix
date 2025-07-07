@@ -11,6 +11,7 @@ in {
       {
         lspsAndRuntimeDeps = {
           general = with pkgs; [
+            fd
             tree-sitter
             ruff
             basedpyright

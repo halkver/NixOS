@@ -19,6 +19,7 @@
       nerd-fonts.fira-code
       noto-fonts-cjk-sans
       python3
+      pgadmin4-desktopmode
     ];
 
   };
@@ -45,7 +46,7 @@
       enable = true;
       shellAliases = {
         rb = "sudo nixos-rebuild switch --flake ~/NixOS/.";
-        nixc = "cd ~/NixOS";
+        nixc = "vim ~/NixOS";
         dev = "nix develop ~/NixOS/.#pyshell -c $SHELL";
       };
       plugins = with pkgs.fishPlugins; [
