@@ -7,27 +7,28 @@ in {
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  networking.hostName = "work";
-  # networking.wireless.enable = true;
+  networking = {
+    hostName = "work";
+    # wireless.enable = true;
+    firewall.allowedTCPPorts = [ 22 ];
 
-  # Enable networking
-  networking.networkmanager.enable = true;
-  networking.useDHCP = false;
-  networking.interfaces.enp86s0 = {
+    # DMP Specific
     useDHCP = false;
-    ipv4.addresses = [
-      {
-        address = netconf.ip;
-        prefixLength = netconf.prefixLength;
-      }
-    ];
+    interfaces.enp86s0 = {
+      useDHCP = false;
+      ipv4.addresses = [
+        {
+          address = netconf.ip;
+          prefixLength = netconf.prefixLength;
+        }
+      ];
+    };
+    defaultGateway = netconf.defaultGateway;
+    nameservers = netconf.nameservers;
   };
-  networking.defaultGateway = netconf.defaultGateway;
-  networking.nameservers = netconf.nameservers;
 
   security.pki.certificateFiles = [ ../../zscaler.crt ];
   nix.settings.ssl-cert-file = "/etc/ssl/certs/ca-bundle.crt";
-
 
   # Configure keymap in X11
   services = {
@@ -59,4 +60,8 @@ in {
   };
 
   system.stateVersion = "25.05";
+
+  users.users.halkver.openssh.authorizedKeys.keyFiles = [
+    ./authorized_keys
+  ];
 }
