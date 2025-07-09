@@ -30,7 +30,7 @@ vim.o.ignorecase = true
 vim.o.smartcase = true
 vim.o.breakindent = true
 
-vim.o.completeopt = 'menu,preview,noselect'
+vim.o.completeopt = "menu,preview,noselect"
 
 vim.wo.number = true
 vim.wo.signcolumn = "yes"
@@ -257,6 +257,7 @@ require("lze").load({
 				formatters_by_ft = {
 					lua = { "stylua" },
 					python = { "ruff_format", "ruff_fix", "ruff_organize_imports" },
+          nix = { "alejandra" },
 				},
 			})
 			vim.keymap.set({ "n", "v" }, "<leader>ff", function()
@@ -430,14 +431,14 @@ require("lze").load({
 		},
 		-- also these are regular specs and you can use before and after and all the other normal fields
 	},
-  {
-    "basedpyright",
-    enabled = true,
-    lsp = {
-      filetypes = { "python" },
-      on_attach = lsp_on_attach,
-    },
-  },
+	{
+		"basedpyright",
+		enabled = true,
+		lsp = {
+			filetypes = { "python" },
+			on_attach = lsp_on_attach,
+		},
+	},
 	{
 		"gopls",
 		enabled = nixCats("go") or false,
