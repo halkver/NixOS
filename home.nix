@@ -79,5 +79,10 @@
           "--exact"
         ];
       };
+
+    zoxide = {
+      enable = true;
+      enableFishIntegration = true;
+    };
   };
 }
