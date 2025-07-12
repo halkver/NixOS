@@ -19,7 +19,7 @@
       nerd-fonts.fira-code
       noto-fonts-cjk-sans
       python3
-      pgadmin4-desktopmode
+      postgresql
       fd
     ];
 
