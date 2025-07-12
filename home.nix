@@ -20,6 +20,7 @@
       noto-fonts-cjk-sans
       python3
       pgadmin4-desktopmode
+      fd
     ];
 
   };
@@ -68,6 +69,7 @@
           "--layout=reverse"
           "--height=40%"
         ];
+        fileWidgetCommand = "fd --type f --strip-cwd-prefix";
         fileWidgetOptions = [
           "--preview '${lib.getExe fzf-preview} {}'"
         ];
