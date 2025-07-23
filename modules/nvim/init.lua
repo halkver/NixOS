@@ -2,18 +2,18 @@ vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 
 vim.cmd([[autocmd! CursorHold * lua vim.diagnostic.open_float(nil, {focus=false})]])
--- vim.g.clipboard = {
---   name = "WslClipboard",
---   copy = {
---     ["+"] = "/mnt/c/Users/dmphalvormeen/Downloads/win32yank-x64/win32yank.exe -i --crlf",
---     ["*"] = "/mnt/c/Users/dmphalvormeen/Downloads/win32yank-x64/win32yank.exe -i --crlf",
---   },
---   paste = {
---     ["+"] = "/mnt/c/Users/dmphalvormeen/Downloads/win32yank-x64/win32yank.exe -o --lf",
---     ["*"] = "/mnt/c/Users/dmphalvormeen/Downloads/win32yank-x64/win32yank.exe -o --lf",
---   },
---   cache_enabled = 0,
--- }
+vim.g.clipboard = {
+  name = 'WslClipboard',
+  copy = {
+    ['+'] = 'clip.exe',
+    ['*'] = 'clip.exe',
+  },
+  paste = {
+    ['+'] = 'powershell.exe -NoLogo -NoProfile -c [Console]::Out.Write($(Get-Clipboard -Raw).tostring().replace("`r", ""))',
+    ['*'] = 'powershell.exe -NoLogo -NoProfile -c [Console]::Out.Write($(Get-Clipboard -Raw).tostring().replace("`r", ""))',
+  },
+  cache_enabled = 0,
+}
 vim.o.clipboard = "unnamedplus"
 
 vim.o.termguicolors = true

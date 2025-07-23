@@ -1,6 +1,10 @@
-{ config, pkgs, inputs, ... }:
 {
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  config,
+  pkgs,
+  inputs,
+  ...
+}: {
+  nix.settings.experimental-features = ["nix-command" "flakes"];
 
   nixpkgs.config.allowUnfree = true;
 
@@ -35,24 +39,36 @@
       config = {
         user.name = "Halvor Kvernes Meen";
         user.email = "halvorkm@pm.me";
-        push = { autoSetupRemote = true; };
-        pull = { rebase = true; };
-        init = { defaultBranch = "main"; };
+        push = {autoSetupRemote = true;};
+        pull = {rebase = true;};
+        init = {defaultBranch = "main";};
       };
     };
+  };
+
+  virtualisation.docker = {
+    enable = true;
+    rootless.enable = true;
   };
 
   users.users.halkver = {
     initialPassword = "haru";
     isNormalUser = true;
-    extraGroups = [ "wheel" "networkmanager" ];
+    extraGroups = ["wheel" "networkmanager" "docker"];
     shell = pkgs.fish;
   };
 
-  security.sudo.extraRules = [{
-    users = [ "halkver" ];
-    commands = [{ command = "ALL"; options = [ "NOPASSWD" ]; }];
-  }];
+  security.sudo.extraRules = [
+    {
+      users = ["halkver"];
+      commands = [
+        {
+          command = "ALL";
+          options = ["NOPASSWD"];
+        }
+      ];
+    }
+  ];
 
   environment.localBinInPath = true;
 }

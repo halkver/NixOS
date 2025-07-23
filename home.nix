@@ -21,8 +21,8 @@
       python3
       postgresql
       fd
+      openssl
     ];
-
   };
 
   programs = {
@@ -47,7 +47,7 @@
       enable = true;
       shellAliases = {
         rb = "sudo nixos-rebuild switch --flake ~/NixOS/.";
-        nixc = "vim ~/NixOS";
+        nixconf = "vim ~/NixOS";
         dev = "nix develop ~/NixOS/.#pyshell -c $SHELL";
       };
       plugins = with pkgs.fishPlugins; [
