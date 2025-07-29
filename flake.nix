@@ -49,7 +49,7 @@
     in
     {
       devShells.${system}.pyshell = pkgs.mkShell {
-        packages = [ python pkgs.uv ];
+        packages = [ python pkgs.uv pkgs.ruff ];
         env = { UV_PYTHON_DOWNLOADS = "never"; UV_PYTHON = python.interpreter; }
         // nixpkgs.lib.optionalAttrs pkgs.stdenv.isLinux {
           LD_LIBRARY_PATH = nixpkgs.lib.makeLibraryPath pkgs.pythonManylinuxPackages.manylinux1;
