@@ -45,6 +45,9 @@
 
     fish = {
       enable = true;
+      interactiveShellInit = ''
+        fish_vi_key_bindings
+      '';
       shellAliases = {
         rb = "sudo nixos-rebuild switch --flake ~/NixOS/.";
         nixconf = "vim ~/NixOS";
