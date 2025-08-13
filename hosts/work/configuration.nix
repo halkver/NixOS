@@ -1,7 +1,7 @@
 { config, pkgs, ... }: let
   netconf = builtins.fromJSON (builtins.readFile ./netconf.json);
 in {
-  imports = [ ./hardware-configuration.nix ./falcon.nix ];
+  imports = [ ./hardware-configuration.nix ./falcon.nix ../../modules/japanese ];
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
